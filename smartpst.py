@@ -14,7 +14,8 @@ from email.mime.multipart import MIMEMultipart
 base_dir = os.path.join(os.environ.get('HOMEDRIVE', 'C:'), os.environ.get('HOMEPATH', '\\Users\\Default'))
 
 # Source location of Outlook PST files
-source_path = os.path.join(base_dir, "Documents", "Outlook Files")
+
+source_path = r"\\magcjr-pl\Users\Employee\Documents\Outlook Files"
 
 # Backup destination folder
 backup_path = os.path.join(base_dir, "Desktop", "PST", "Backup")
@@ -83,7 +84,8 @@ def schedule_task(run_date, run_time):
         # Create new scheduled task
         command = (
             f'schtasks /create /tn "{task_name}" /tr "{script_path}" '
-            f'/sc once /st {run_time} /sd {run_date} /rl highest'
+            f'/sc once /st {run_time} /sd {run_date} /rl highest '
+            f'/ru "{os.getlogin()}" /rp "admin"'
         )
         subprocess.call(command, shell=True)
     except Exception as e:
